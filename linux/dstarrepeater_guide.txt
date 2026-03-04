@@ -1,0 +1,529 @@
+================================================================================
+  DStarRepeater Configuration Reference Guide
+================================================================================
+
+  WARNING: DO NOT use this file as your configuration file.
+  This file is a reference guide only. The comment lines in this file will
+  cause the DStarRepeater config parser to skip the line immediately following
+  each comment (due to a known bug in the parser). If you need a clean starting
+  config, copy 'dstarrepeater.example' to '/etc/dstarrepeater' instead.
+
+  Config file location: /etc/dstarrepeater
+  (or /etc/dstarrepeater_<name> when using the -name command line option)
+
+  Format: key=value (one per line, no spaces around the '=')
+  Boolean values: 0 = off/false, 1 = on/true
+
+================================================================================
+
+
+--- CALLSIGN SETTINGS ---------------------------------------------------------
+
+# The repeater callsign, padded to 8 characters.
+# 7-character base callsign + 1-character module suffix (A, B, C, D, or E).
+# Example: "GB3IN  C" (note the two spaces padding to 7 chars, then suffix)
+callsign=GB3IN  C
+
+# The gateway callsign, padded to 8 characters.
+# 7-character base callsign + "G" suffix. Leave empty if not linked to a gateway.
+# Example: "GB3IN  G"
+gateway=
+
+# Operating mode of the repeater.
+#   0 = Duplex      Full duplex repeater (simultaneous TX and RX)
+#   1 = Simplex     Simplex repeater
+#   2 = Gateway     Gateway mode (ack forced off, RPT1 validation forced on)
+#   3 = TX Only     Transmit only (ack forced off)
+#   4 = RX Only     Receive only (ack forced off)
+#   5 = TX and RX   Sequential transmit then receive
+mode=0
+
+# Acknowledgement type sent after a transmission is received.
+#   0 = Off         No acknowledgement
+#   1 = BER         Respond with Bit Error Rate
+#   2 = Status      Respond with status message
+# Note: Forced to 0 (Off) in Gateway, TX Only, RX Only, and TX and RX modes.
+ack=1
+
+# Restrict access to callsigns in the whitelist only.
+#   0 = Off         No restriction, all callsigns accepted
+#   1 = On          Only whitelisted callsigns accepted
+restriction=0
+
+# Validate that the RPT1 field in incoming headers matches this repeater.
+#   0 = Off         Accept all incoming headers
+#   1 = On          Only accept headers addressed to this repeater
+# Note: Forced to 1 (On) in Gateway mode.
+rpt1Validation=1
+
+# Blank (mute) DTMF tones from the audio stream.
+#   0 = Off         DTMF tones pass through to the audio
+#   1 = On          DTMF tones are blanked from the audio
+dtmfBlanking=1
+
+# Send an error reply when an invalid or unrecognised command is received.
+#   0 = Off         Silently ignore invalid commands
+#   1 = On          Reply with an error message
+errorReply=1
+
+
+--- NETWORK SETTINGS ----------------------------------------------------------
+
+# IP address of the ircDDB Gateway.
+gatewayAddress=127.0.0.1
+
+# UDP port number the gateway is listening on.
+gatewayPort=20010
+
+# Local IP address to bind to for gateway communication.
+localAddress=127.0.0.1
+
+# Local UDP port number for gateway communication.
+localPort=20011
+
+# Network name identifier (used when running multiple repeaters).
+# Leave empty for a single repeater setup.
+networkName=
+
+
+--- MODEM TYPE ----------------------------------------------------------------
+
+# The type of modem hardware connected to this repeater.
+# Must be one of the following strings (case-sensitive):
+#   DVAP
+#   DVMEGA
+#   DV-RPTR V1
+#   DV-RPTR V2
+#   DV-RPTR V3
+#   GMSK Modem
+#   MMDVM
+#   Sound Card
+#   Split
+#   Icom Access Point/Terminal Mode
+# Only the settings for the selected modem type need to be configured.
+modemType=DVAP
+
+
+--- TIMING SETTINGS -----------------------------------------------------------
+
+# Transmission timeout in seconds. The repeater will drop a transmission
+# that exceeds this duration. Set to 0 to disable the timeout.
+timeout=180
+
+# Acknowledgement delay time in milliseconds.
+# Time to wait before sending the ack after a transmission ends.
+ackTime=500
+
+
+--- BEACON SETTINGS -----------------------------------------------------------
+
+# Beacon interval in seconds. The repeater will transmit a beacon at this
+# interval. Set to 0 to disable beaconing.
+beaconTime=600
+
+# Text transmitted in the beacon slow data field.
+beaconText=D-Star Repeater
+
+# Enable voice beacon (transmit an audio beacon in addition to data).
+#   0 = Off         Data-only beacon
+#   1 = On          Voice and data beacon
+beaconVoice=0
+
+# Language for the voice beacon text-to-speech.
+#   0  = English (UK)
+#   1  = Deutsch
+#   2  = Dansk
+#   3  = Francais
+#   4  = Italiano
+#   5  = Polski
+#   6  = Espanol
+#   7  = Svenska
+#   8  = Nederlands
+#   9  = English (US)
+#   10 = Norsk
+language=0
+
+
+--- ANNOUNCEMENT SETTINGS -----------------------------------------------------
+
+# Enable the announcement/recording feature.
+#   0 = Off
+#   1 = On
+announcementEnabled=0
+
+# Announcement playback interval in milliseconds.
+announcementTime=500
+
+# RPT1 callsign that triggers recording an announcement.
+announcementRecordRPT1=
+
+# RPT2 callsign that triggers recording an announcement.
+announcementRecordRPT2=
+
+# RPT1 callsign that triggers deleting a recorded announcement.
+announcementDeleteRPT1=
+
+# RPT2 callsign that triggers deleting a recorded announcement.
+announcementDeleteRPT2=
+
+
+--- DTMF CONTROL SETTINGS ----------------------------------------------------
+
+# Enable DTMF remote control of the repeater.
+#   0 = Off
+#   1 = On
+controlEnabled=0
+
+# RPT1 callsign required for DTMF control commands to be accepted.
+controlRPT1=
+
+# RPT2 callsign required for DTMF control commands to be accepted.
+controlRPT2=
+
+# DTMF sequence to remotely shut down the repeater.
+controlShutdown=
+
+# DTMF sequence to remotely start up the repeater.
+controlStartup=
+
+# DTMF sequences that trigger status message 1-5 to be sent.
+controlStatus1=
+controlStatus2=
+controlStatus3=
+controlStatus4=
+controlStatus5=
+
+# DTMF command sequences 1-6 and their associated shell command lines.
+# When the DTMF sequence is received, the corresponding command line is executed.
+controlCommand1=
+controlCommand1Line=
+controlCommand2=
+controlCommand2Line=
+controlCommand3=
+controlCommand3Line=
+controlCommand4=
+controlCommand4Line=
+controlCommand5=
+controlCommand5Line=
+controlCommand6=
+controlCommand6Line=
+
+# DTMF sequences that toggle external output relays 1-4.
+controlOutput1=
+controlOutput2=
+controlOutput3=
+controlOutput4=
+
+
+--- EXTERNAL CONTROLLER SETTINGS ----------------------------------------------
+
+# The type of external hardware controller for PTT, LEDs, and relay outputs.
+# Leave empty for no external controller. Examples of valid values:
+#   (empty)                No controller
+#   GPIO                   Raspberry Pi GPIO pins (Pi builds only)
+#   UDRC                   UDRC board (Pi builds only)
+#   Velleman K8055 - 0     Velleman K8055 USB board at address 0 (0-3)
+#   URI USB - 1            URI USB relay card at address 1 (1-6)
+#   Serial - /dev/ttyUSB0  Serial port controller
+#   Arduino - /dev/ttyUSB0 Arduino controller via serial
+controllerType=
+
+# Hardware config selection (1-5). Selects between different pin/output
+# mappings on the external controller.
+serialConfig=1
+
+# Invert the PTT output signal.
+#   0 = Off         PTT active high
+#   1 = On          PTT active low (inverted)
+pttInvert=0
+
+# Active hang time in seconds. How long the controller stays in the
+# active (transmitting) state after the last transmission ends.
+# Range: 0-300. Set to 0 to disable.
+activeHangTime=0
+
+
+--- OUTPUT RELAY DEFAULTS -----------------------------------------------------
+
+# Default state of external output relays 1-4 at startup.
+#   0 = Off
+#   1 = On
+output1=0
+output2=0
+output3=0
+output4=0
+
+
+--- LOGGING -------------------------------------------------------------------
+
+# Enable logging to file.
+#   0 = Off
+#   1 = On
+logging=0
+
+
+--- WINDOW POSITION (GUI only) -----------------------------------------------
+
+# Window position for the GUI version. Set to -1 for system default placement.
+windowX=-1
+windowY=-1
+
+
+================================================================================
+  MODEM-SPECIFIC SETTINGS
+  Only the section for your selected modemType needs to be configured.
+================================================================================
+
+
+--- DVAP MODEM SETTINGS -------------------------------------------------------
+--- (modemType=DVAP)
+
+# Serial port the DVAP is connected to.
+# Example: /dev/ttyUSB0
+dvapPort=
+
+# Operating frequency in Hz.
+# Example: 145500000 = 145.500 MHz, 438500000 = 438.500 MHz
+dvapFrequency=145500000
+
+# Transmit power in dBm. Range depends on DVAP hardware.
+dvapPower=10
+
+# Squelch level in dBm. Signals below this level are ignored.
+dvapSquelch=-100
+
+
+--- GMSK MODEM SETTINGS -------------------------------------------------------
+--- (modemType=GMSK Modem)
+
+# USB address of the GMSK modem (decimal). Default is 768 (0x0300 hex).
+# Note: On Linux, always uses libusb. On Windows, interface type is set
+# separately in the Windows registry.
+gmskAddress=768
+
+
+--- DV-RPTR V1 MODEM SETTINGS -------------------------------------------------
+--- (modemType=DV-RPTR V1)
+
+# Serial port the DV-RPTR V1 is connected to.
+# Example: /dev/ttyUSB0
+dvrptr1Port=
+
+# Invert the received signal polarity.
+#   0 = Normal
+#   1 = Inverted
+dvrptr1RXInvert=0
+
+# Invert the transmitted signal polarity.
+#   0 = Normal
+#   1 = Inverted
+dvrptr1TXInvert=0
+
+# Channel selection.
+#   0 = Channel A
+#   1 = Channel B
+dvrptr1Channel=0
+
+# Modulation level as a percentage (0-100).
+dvrptr1ModLevel=20
+
+# Transmit delay in milliseconds. Delay before data is sent after keying TX.
+dvrptr1TXDelay=150
+
+
+--- DV-RPTR V2 MODEM SETTINGS -------------------------------------------------
+--- (modemType=DV-RPTR V2)
+
+# Connection type to the DV-RPTR V2.
+#   0 = USB         Connect via USB serial port
+#   1 = Network     Connect via TCP/IP network
+dvrptr2Connection=0
+
+# USB serial port (when dvrptr2Connection=0).
+# Example: /dev/ttyUSB0
+dvrptr2USBPort=
+
+# Network address (when dvrptr2Connection=1).
+dvrptr2Address=127.0.0.1
+
+# Network port (when dvrptr2Connection=1).
+dvrptr2Port=0
+
+# Invert the transmitted signal polarity.
+#   0 = Normal
+#   1 = Inverted
+dvrptr2TXInvert=0
+
+# Modulation level as a percentage (0-100).
+dvrptr2ModLevel=20
+
+# Transmit delay in milliseconds.
+dvrptr2TXDelay=150
+
+
+--- DV-RPTR V3 MODEM SETTINGS -------------------------------------------------
+--- (modemType=DV-RPTR V3)
+
+# Connection type to the DV-RPTR V3.
+#   0 = USB         Connect via USB serial port
+#   1 = Network     Connect via TCP/IP network
+dvrptr3Connection=0
+
+# USB serial port (when dvrptr3Connection=0).
+# Example: /dev/ttyUSB0
+dvrptr3USBPort=
+
+# Network address (when dvrptr3Connection=1).
+dvrptr3Address=127.0.0.1
+
+# Network port (when dvrptr3Connection=1).
+dvrptr3Port=0
+
+# Invert the transmitted signal polarity.
+#   0 = Normal
+#   1 = Inverted
+dvrptr3TXInvert=0
+
+# Modulation level as a percentage (0-100).
+dvrptr3ModLevel=20
+
+# Transmit delay in milliseconds.
+dvrptr3TXDelay=150
+
+
+--- DVMEGA MODEM SETTINGS -----------------------------------------------------
+--- (modemType=DVMEGA)
+
+# Serial port the DVMEGA is connected to.
+# Example: /dev/ttyAMA0 (Raspberry Pi), /dev/ttyUSB0
+dvmegaPort=
+
+# DVMEGA hardware variant.
+#   0 = Modem           Basic DVMEGA modem board
+#   1 = Radio 2m        DVMEGA with 2m (VHF) radio module
+#   2 = Radio 70cm      DVMEGA with 70cm (UHF) radio module
+#   3 = Radio 2m/70cm   DVMEGA with dual-band radio module
+dvmegaVariant=0
+
+# Invert the received signal polarity.
+#   0 = Normal
+#   1 = Inverted
+dvmegaRXInvert=0
+
+# Invert the transmitted signal polarity.
+#   0 = Normal
+#   1 = Inverted
+dvmegaTXInvert=0
+
+# Transmit delay in milliseconds.
+dvmegaTXDelay=150
+
+# Receive frequency in Hz (for radio variants).
+# Example: 145500000 = 145.500 MHz
+dvmegaRXFrequency=145500000
+
+# Transmit frequency in Hz (for radio variants).
+# Example: 145500000 = 145.500 MHz
+dvmegaTXFrequency=145500000
+
+# Transmit power as a percentage (0-100, for radio variants).
+dvmegaPower=100
+
+
+--- MMDVM MODEM SETTINGS ------------------------------------------------------
+--- (modemType=MMDVM)
+
+# Serial port the MMDVM is connected to.
+# Example: /dev/ttyACM0, /dev/ttyUSB0
+mmdvmPort=
+
+# Invert the received signal polarity.
+#   0 = Normal
+#   1 = Inverted
+mmdvmRXInvert=0
+
+# Invert the transmitted signal polarity.
+#   0 = Normal
+#   1 = Inverted
+mmdvmTXInvert=0
+
+# Invert the PTT signal to the MMDVM.
+#   0 = Normal
+#   1 = Inverted
+mmdvmPTTInvert=0
+
+# Transmit delay in milliseconds.
+mmdvmTXDelay=50
+
+# Receive audio level as a percentage (0-100).
+mmdvmRXLevel=100
+
+# Transmit audio level as a percentage (0-100).
+mmdvmTXLevel=100
+
+
+--- SOUND CARD MODEM SETTINGS -------------------------------------------------
+--- (modemType=Sound Card)
+
+# Sound card device name for receiving audio.
+# Use the device name as reported by your audio system.
+soundCardRXDevice=
+
+# Sound card device name for transmitting audio.
+soundCardTXDevice=
+
+# Invert the received signal polarity.
+#   0 = Normal
+#   1 = Inverted
+soundCardRXInvert=0
+
+# Invert the transmitted signal polarity.
+#   0 = Normal
+#   1 = Inverted
+soundCardTXInvert=0
+
+# Receive audio level multiplier (floating point, e.g. 1.0000 = unity gain).
+soundCardRXLevel=1.0000
+
+# Transmit audio level multiplier (floating point, e.g. 1.0000 = unity gain).
+soundCardTXLevel=1.0000
+
+# Transmit delay in milliseconds. Delay before audio data is sent.
+soundCardTXDelay=150
+
+# Transmit tail in milliseconds. Extra carrier time after the last audio frame.
+soundCardTXTail=50
+
+
+--- ICOM ACCESS POINT/TERMINAL MODE SETTINGS ----------------------------------
+--- (modemType=Icom Access Point/Terminal Mode)
+
+# Serial port the Icom radio is connected to.
+# Example: /dev/ttyUSB0
+icomPort=
+
+
+--- SPLIT MODEM SETTINGS ------------------------------------------------------
+--- (modemType=Split)
+
+# Local IP address to bind for split receiver/transmitter communication.
+splitLocalAddress=
+
+# Local UDP port for split communication.
+splitLocalPort=0
+
+# Split transmitter and receiver names are stored as indexed entries:
+#   splitTXName0=<transmitter 0 name>
+#   splitTXName1=<transmitter 1 name>
+#   splitRXName0=<receiver 0 name>
+#   splitRXName1=<receiver 1 name>
+#   ... (up to 5 transmitters and 25 receivers)
+# No entries are present by default.
+
+# Split timeout in seconds. Set to 0 to disable.
+splitTimeout=0
+
+
+================================================================================
+  END OF CONFIGURATION REFERENCE
+================================================================================
